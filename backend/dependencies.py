@@ -5,19 +5,21 @@ from fastapi.security import OAuth2AuthorizationCodeBearer
 from keycloak import KeycloakOpenID
 from starlette import status
 
+from settings import app_settings
+
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 oauth2_scheme = OAuth2AuthorizationCodeBearer(
-    authorizationUrl="http://keycloak:8080/realms/reports-realm/protocol/openid-connect/auth",
-    tokenUrl="http://keycloak:8080/realms/reports-realm/protocol/openid-connect/token",
+    authorizationUrl=app_settings.authorization_url,
+    tokenUrl=app_settings.token_url,
 )
 
 keycloak_openid = KeycloakOpenID(
-    server_url="http://keycloak:8080/",
-    client_id="reports-backend",
-    realm_name="reports-realm",
-    client_secret_key="supersecret",
+    server_url=app_settings.keycloak_server_url,
+    client_id=app_settings.keycloak_client_id,
+    realm_name=app_settings.keycloak_realm,
+    client_secret_key=app_settings.keycloak_client_secret,
 )
 
 
